@@ -45,8 +45,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
-
-        // Chuyển hướng dứt khoát về trang login
         return redirect('/login');
     }
 }

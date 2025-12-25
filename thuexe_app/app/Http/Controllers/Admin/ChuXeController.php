@@ -2,66 +2,88 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChuXe;
+use Illuminate\Support\Facades\Hash;
 
-class ChuXeController extends Controller
+class ChuXeController extends AdminBaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
-   public function index()
-    {       
-        $owners = ChuXe::withCount('xes')->orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.chu_xe.index', compact('owners'));
+    public function index()
+    {
+        $chuXes = ChuXe::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.chu_xe.index', compact('chuXes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.chu_xe.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'Ten_CX' => 'required|max:255',
+            'SoDT_CX' => 'required|numeric',
+            'Email_CX' => 'required|email|unique:chu_xes,Email_CX',
+            'password' => 'required|min:6',
+        ], [
+            'Ten_CX.required' => 'Vui lòng nhập tên chủ xe',
+            'Email_CX.required' => 'Email là bắt buộc để đăng nhập',
+            'Email_CX.unique' => 'Email này đã được sử dụng',
+            'password.min' => 'Mật khẩu phải ít nhất 6 ký tự'
+        ]);
+
+        $data = $request->all();
+
+        $data['password'] = Hash::make($request->password);
+
+        if (!isset($data['Trang_Thai'])) {
+            $data['Trang_Thai'] = 'ChoDuyet';
+        }
+
+        ChuXe::create($data);
+
+        return redirect()->route('chu-xe.index')->with('success', 'Thêm chủ xe mới thành công!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $chuXe = ChuXe::with('xes')->findOrFail($id);
+        return view('admin.chu_xe.show', compact('chuXe'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $chuXe = ChuXe::findOrFail($id);
+        return view('admin.chu_xe.edit', compact('chuXe'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $chuXe = ChuXe::findOrFail($id);
+
+        $request->validate([
+            'Ten_CX' => 'required|max:255',
+            'SoDT_CX' => 'required|numeric',
+            'Email_CX' => 'required|email|unique:chu_xes,Email_CX,' . $id . ',Ma_CX',
+        ]);
+
+        $data = $request->except(['password']); 
+
+        if ($request->filled('password')) {
+            $request->validate(['password' => 'min:6']);
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $chuXe->update($data);
+
+        return redirect()->route('chu-xe.index')->with('success', 'Cập nhật thông tin thành công!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $chuXe = ChuXe::findOrFail($id);
+        $chuXe->delete();
+        return redirect()->route('chu-xe.index')->with('success', 'Đã xóa chủ xe!');
     }
 }

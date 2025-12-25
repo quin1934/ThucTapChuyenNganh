@@ -13,14 +13,20 @@ return new class extends Migration
     {
         Schema::create('khach_thues', function (Blueprint $table) {
             $table->id('Ma_KT');
-            $table->string('Ten_KT');
-            $table->string('SoDT_KT'); // Đã sửa từ SoDT_CX trong ảnh thành KT cho đúng logic
-            $table->string('DiaChi_KT');
-            $table->string('Email_KT')->unique();
-            $table->string('MatKhau_KT');
-            $table->string('CCCD_KT');
-            $table->string('GiayPhepLaiXe')->nullable();
-            $table->timestamps();
+            $table->string('Ho_Ten');
+            $table->string('So_Dien_Thoai')->unique(); 
+            $table->string('password')->nullable();    
+            $table->string('Email')->nullable();       
+            $table->string('CCCD')->nullable();        
+            $table->string('Dia_Chi')->nullable();     
+            $table->string('So_GPLX')->nullable();          
+            $table->string('Hang_Bang_Lai')->nullable();    
+            $table->date('Ngay_Cap_GPLX')->nullable();      
+            $table->date('Ngay_Het_Han_GPLX')->nullable();  
+            $table->string('Anh_Bang_Lai_Truoc')->nullable(); 
+            $table->string('Anh_Bang_Lai_Sau')->nullable();   
+
+            $table->timestamps(); 
         });
     }
 

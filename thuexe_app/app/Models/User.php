@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'VaiTro',
     ];
 
     /**
@@ -45,4 +46,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
 }

@@ -1,0 +1,84 @@
+/* 1. Tùy chỉnh Tiêu đề (Tháng/Năm) */
+.fc-toolbar-title {
+    text-transform: uppercase;
+    /* Viết hoa toàn bộ: THÁNG 12 NĂM 2025 */
+    font-weight: 800 !important;
+    /* Chữ siêu đậm */
+    font-size: 1.75rem !important;
+    /* Kích thước to rõ */
+    color: #4e73df;
+    /* Màu xanh chủ đạo (giống theme Admin) */
+    letter-spacing: 1px;
+    /* Giãn chữ ra một chút cho thoáng */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng nhẹ tạo chiều sâu */
+}
+
+/* 2. Tùy chỉnh các nút bấm (Hôm nay, mũi tên, Tháng/Tuần...) */
+.fc-button-primary {
+    background-color: #fff !important;
+    /* Nền trắng */
+    border: 1px solid #d1d3e2 !important;
+    /* Viền xám nhẹ */
+    color: #5a5c69 !important;
+    /* Chữ màu tối */
+    font-weight: 700 !important;
+    transition: all 0.2s;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(58, 59, 69, 0.2) !important;
+    /* Đổ bóng nút */
+}
+
+/* Hiệu ứng khi di chuột vào nút */
+.fc-button-primary:hover {
+    background-color: #f8f9fc !important;
+    color: #4e73df !important;
+    /* Chữ đổi màu xanh */
+    transform: translateY(-1px);
+    /* Nút nảy lên nhẹ */
+}
+
+/* 3. Làm nổi bật ngày hôm nay */
+.fc-day-today {
+    background-color: rgba(78, 115, 223, 0.05) !important;
+    /* Nền xanh siêu nhạt */
+}
+
+/* 4. Khung lịch */
+#calendar {
+    font-family: "Nunito", sans-serif;
+    /* Font chữ đẹp */
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    /* Bo tròn góc lịch */
+}
+
+/* Sự kiện trên lịch */
+.fc-event {
+    border: none !important;
+    border-radius: 5px;
+    padding: 2px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng cho thanh sự kiện */
+}
+
+.fc-button-group > .fc-button {
+    margin: 0 4px !important;
+    /* Tạo khoảng cách 2 bên (4px) */
+    border-radius: 0.35rem !important;
+    /* Bo tròn lại cả 4 góc cho mềm mại */
+    flex: none !important;
+    /* Tránh việc nút bị méo */
+}
+
+/* 2. Ghi đè margin âm mặc định (Nguyên nhân chính gây dính) */
+/* FullCalendar mặc định để margin-left: -1px để dính nút, ta cần sửa lại */
+.fc-button-group > .fc-button:not(:first-child) {
+    margin-left: 4px !important;
+}
+
+/* 3. (Tùy chọn) Xóa bỏ viền bao quanh nhóm nếu có */
+.fc-button-group {
+    border: none !important;
+    box-shadow: none !important;
+}

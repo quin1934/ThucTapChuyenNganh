@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('chu_xes', function (Blueprint $table) {
             $table->id('Ma_CX');
-            $table->string('Ten_CX');
-            $table->string('SoDT_CX');
-            $table->string('DiaChi_CX');
-            $table->string('Email_CX')->unique();
-            $table->string('MatKhau_CX');
-            $table->string('SoKTNH_CX')->nullable();
+            $table->string('Ten_CX'); 
+            $table->string('SoDT_CX')->unique(); 
+            $table->string('Email_CX')->nullable();
+            $table->string('DiaChi_CX')->nullable();
+            $table->string('SoTKNH_CX')->nullable(); 
+            $table->string('password');        
+            $table->string('HinhAnh')->nullable(); 
+            $table->string('Trang_Thai')->default('ChoDuyet');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('chu_xes');

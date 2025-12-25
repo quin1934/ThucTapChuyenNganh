@@ -2,48 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Xe;          
-use App\Models\ChuXe;       
-use App\Models\User;  
-use App\Models\KhachThue;      
-use App\Models\PhanLoaiXe; 
-use App\Models\DonThue;  
-use App\Models\DanhGia;  
-use App\Models\ThanhToan;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Xe;
+use App\Models\DonThue;
+use App\Models\KhachThue;
 use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $totalCars = Xe::count();
 
-        $pendingOrders = DonThue::where('TrangThai_Don', 'ChoDuyet')->count();
+        $pendingOrders = DonThue::where('Trang_Thai', 'ChoDuyet')->count();
 
-        $currentMonthRevenue = ThanhToan::where('TrangThai_TT', 'ThanhCong')
-                                ->whereMonth('Ngay_TT', Carbon::now()->month)
-                                ->whereYear('Ngay_TT', Carbon::now()->year)
-                                ->sum('SoTien');
+        $currentMonthRevenue = DonThue::whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->where('Trang_Thai', '!=', 'DaHuy')
+            ->sum('Tong_Tien');
 
         $totalCustomers = KhachThue::count();
-        $recentOrders = DonThue::with(['khachThue', 'xe'])
-                        ->orderBy('created_at', 'desc')
-                        ->take(5)
-                        ->get();
 
+        $recentOrders = DonThue::with(['xe', 'khachThue'])
+            ->orderBy('created_at', 'desc')
+            ->take(6)
+            ->paginate(10);
         return view('admin.dashboard', compact(
-            'totalCars', 
-            'pendingOrders', 
-            'currentMonthRevenue', 
-            'totalCustomers', 
+            'totalCars',
+            'pendingOrders',
+            'currentMonthRevenue',
+            'totalCustomers',
             'recentOrders'
         ));
     }
-
 }

@@ -4,64 +4,52 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\LichXe;
+use App\Models\DonThue;
+use Carbon\Carbon;
 
-class LichXeController extends Controller
+class LichXeController extends AdminBaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = LichXe::with('xe')->orderBy('Ngay', 'desc')->paginate(15);
-        return view('admin.lich_xe.index', compact('schedules'));
-    }
+        if ($request->has('start') && $request->has('end')) {
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+            $rangeStart = Carbon::parse($request->start)->toDateTimeString();
+            $rangeEnd = Carbon::parse($request->end)->toDateTimeString();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+           
+            $data = DonThue::where('Ngay_Bat_Dau', '<', $rangeEnd)
+                ->where('Ngay_Ket_Thuc', '>', $rangeStart)
+                ->where('Trang_Thai', '!=', 'DaHuy')
+                ->with('xe', 'khachThue')
+                ->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+            $events = [];
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            foreach ($data as $item) {
+                $color = '#858796';
+                if ($item->Trang_Thai == 'ChoDuyet') $color = '#f6c23e'; 
+                else if ($item->Trang_Thai == 'DaDuyet') $color = '#36b9cc'; 
+                else if ($item->Trang_Thai == 'DaDatCoc') $color = '#4e73df'; 
+                else if (in_array($item->Trang_Thai, ['DangDiChuyen', 'DaGiaoXe', 'DangHoatDong'], true)) $color = '#1cc88a'; 
+                else if (in_array($item->Trang_Thai, ['HoanThanh', 'DaTraXe'], true)) $color = '#5a5c69';
+                else if ($item->Trang_Thai == 'QuaHan') $color = '#343a40'; 
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+                $events[] = [
+                    'id' => $item->Ma_DT,
+                    'title' => '#' . $item->Ma_DT,
+                    'start' => $item->Ngay_Bat_Dau,
+                    'end' => $item->Ngay_Ket_Thuc,
+                    'backgroundColor' => $color,
+                    'borderColor' => $color,
+                    'textColor' => '#ffffff',
+                    'url' => route('don-thue.show', $item->Ma_DT)
+                ];
+            }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return response()->json($events)
+                ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+
+        return view('admin.lich_xe.index');
     }
 }

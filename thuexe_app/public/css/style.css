@@ -1,15 +1,18 @@
-
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {
     opacity: 0;
     visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
+    transition:
+        opacity 0.5s ease-out,
+        visibility 0s linear 0.5s;
     z-index: 99999;
 }
 
 #spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
+    transition:
+        opacity 0.5s ease-out,
+        visibility 0s linear 0s;
     visibility: visible;
     opacity: 1;
 }
@@ -26,7 +29,7 @@
 /*** Button Start ***/
 .btn {
     font-weight: 600;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .btn-square {
@@ -96,18 +99,27 @@
 
 /*** Icon Animation Start ***/
 @keyframes icon-animat {
-    0%  {border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;}
+    0% {
+        border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
+    }
 
-    25% {border-radius: 69% 31% 19% 81% / 43% 37% 63% 57%;}
+    25% {
+        border-radius: 69% 31% 19% 81% / 43% 37% 63% 57%;
+    }
 
-    50% {border-radius: 67% 33% 16% 84% / 57% 37% 63% 43%;}
+    50% {
+        border-radius: 67% 33% 16% 84% / 57% 37% 63% 43%;
+    }
 
-    75% {border-radius: 77% 23% 61% 39% / 36% 61% 39% 64%;}
+    75% {
+        border-radius: 77% 23% 61% 39% / 36% 61% 39% 64%;
+    }
 
-    100% {border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;}
+    100% {
+        border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
+    }
 }
 /*** Icon Animation End ***/
-
 
 /*** Navbar Start ***/
 .nav-bar {
@@ -127,7 +139,7 @@
     font-size: 17px;
     font-weight: 500;
     outline: none;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .sticky-top .navbar-light .navbar-nav .nav-link {
@@ -142,7 +154,7 @@
 
 .navbar-light .navbar-brand img {
     max-height: 60px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .sticky-top .navbar-light .navbar-brand img {
@@ -168,24 +180,22 @@
     visibility: visible;
     margin-top: 8px !important;
     background: var(--bs-light);
-    transition: .5s;
+    transition: 0.5s;
     opacity: 1;
 }
 
-
-
 @media (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
-    display: block;
-    visibility: hidden;
-    top: 100%;
-    transform: rotateX(-75deg);
-    transform-origin: 0% 0%;
-    border: 0;
-    border-radius: 10px;
-    margin-top: 8px !important;
-    transition: .5s;
-    opacity: 0;
+        display: block;
+        visibility: hidden;
+        top: 100%;
+        transform: rotateX(-75deg);
+        transform-origin: 0% 0%;
+        border: 0;
+        border-radius: 10px;
+        margin-top: 8px !important;
+        transition: 0.5s;
+        opacity: 0;
     }
 }
 
@@ -218,7 +228,7 @@
     height: 100%;
     left: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, .6);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
 }
@@ -238,8 +248,8 @@
     border: 6px solid var(--bs-white);
     border-radius: 15px;
     padding: 0;
-    margin-top:10px;
-    margin-bottom:10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: var(--bs-secondary);
     opacity: 1;
     transition: 0.5s;
@@ -290,8 +300,8 @@
 }
 
 .about .about-item .about-item-inner .about-icon {
-    width: 90px; 
-    height: 90px; 
+    width: 90px;
+    height: 90px;
     border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
     display: flex;
     align-items: center;
@@ -311,7 +321,6 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
-    
 }
 
 .about .about-img .img-1 {
@@ -321,8 +330,8 @@
 
 .about .about-img .img-2 {
     position: absolute;
-    width: 100%; 
-    bottom: 0; 
+    width: 100%;
+    bottom: 0;
     right: 0;
     padding-left: 50px;
     border-radius: 10px;
@@ -377,7 +386,7 @@
 }
 
 .categories .categories-item .categories-item-inner:hover {
-    box-shadow: 0 0 50px rgba(234, 0, 30, .3);
+    box-shadow: 0 0 50px rgba(234, 0, 30, 0.3);
 }
 
 .categories .categories-item-inner .categories-img {
@@ -425,8 +434,42 @@
     background: var(--bs-secondary);
     color: var(--bs-white);
 }
-/*** Cars Categories End ***/
 
+/* Keep vehicle cards equal height inside the carousel */
+.categories-carousel .owl-stage {
+    display: flex;
+}
+
+.categories-carousel .owl-item {
+    display: flex;
+}
+
+.categories-carousel .categories-item {
+    display: flex;
+    width: 100%;
+}
+
+.categories-carousel .categories-item .categories-item-inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.categories-carousel .categories-item-inner .categories-img img {
+    height: 220px;
+    object-fit: cover;
+}
+
+.categories-carousel .categories-item-inner .categories-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.categories-carousel .categories-item-inner .categories-content > a.btn {
+    margin-top: auto;
+}
+/*** Cars Categories End ***/
 
 /*** Blog Start ***/
 .blog .blog-item {
@@ -435,7 +478,7 @@
 }
 
 .blog .blog-item:hover {
-    box-shadow: 0 0 45px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.2);
 }
 
 .blog .blog-item .blog-img {
@@ -466,7 +509,7 @@
 
 .blog .blog-item:hover .blog-img img {
     transform: scale(1.2);
-}  
+}
 
 .blog .blog-item .blog-content {
     position: relative;
@@ -475,8 +518,8 @@
 
 .blog .blog-item .blog-content .blog-date {
     position: absolute;
-    top: 0; 
-    left: 25px; 
+    top: 0;
+    left: 25px;
     transform: translateY(-50%);
     padding: 12px 25px;
     border-radius: 10px;
@@ -560,7 +603,7 @@
     top: 0;
     left: 0;
     border-radius: 10px;
-    background: rgba(255, 255, 255, .3);
+    background: rgba(255, 255, 255, 0.3);
     z-index: 4;
     transition: 0.5s;
 }
@@ -582,8 +625,8 @@
 }
 
 .contact .contact-add-item .contact-icon {
-    width: 90px; 
-    height: 90px; 
+    width: 90px;
+    height: 90px;
     border-radius: 67% 33% 29% 71% / 39% 46% 54% 61%;
     display: flex;
     align-items: center;
@@ -599,7 +642,6 @@
 }
 
 /*** Contact End ***/
-
 
 /*** Footer Start ***/
 .footer {
@@ -641,5 +683,3 @@
     background: var(--bs-dark);
 }
 /*** copyright end ***/
-
-
