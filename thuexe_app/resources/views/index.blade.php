@@ -11,7 +11,7 @@
         $aboutMission = ($cmsHomeBlocks->get('about_mission') ?? collect())->first();
         $aboutStory = ($cmsHomeBlocks->get('about_story') ?? collect())->first();
         $aboutYears = ($cmsHomeBlocks->get('about_years') ?? collect())->first();
-        $aboutBullets = ($cmsHomeBlocks->get('about_bullets') ?? collect())->first();
+        $aboutBulletsBlocks = $cmsHomeBlocks->get('about_bullets') ?? collect();
         $aboutFounder = ($cmsHomeBlocks->get('about_founder') ?? collect())->first();
         $aboutImg1 = ($cmsHomeBlocks->get('about_image_1') ?? collect())->first();
         $aboutImg2 = ($cmsHomeBlocks->get('about_image_2') ?? collect())->first();
@@ -173,8 +173,13 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="rounded">
-                                    @if ($aboutBullets && !empty($aboutBullets->content))
-                                        {!! $aboutBullets->content !!}
+                                    @if ($aboutBulletsBlocks->isNotEmpty())
+                                        @foreach ($aboutBulletsBlocks as $bullet)
+                                            @continue(empty($bullet?->content))
+                                            <p class="{{ $loop->last ? 'mb-0' : 'mb-2' }}"><i
+                                                    class="fa fa-check-circle text-primary me-1"></i>{!! $bullet->content !!}
+                                            </p>
+                                        @endforeach
                                     @else
                                         <p class="mb-2"><i class="fa fa-check-circle text-primary me-1"></i> Hệ thống xe
                                             đa

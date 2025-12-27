@@ -76,7 +76,8 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="bg-white rounded p-4 mb-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="bg-white rounded p-4 mb-4 wow fadeInUp" data-wow-delay="0.2s"
+                        data-gia-thue="{{ (float) $xe->GiaThue }}">
                         <h2 class="fw-bold mb-3 text-center text-primary">Xe đã chọn</h2>
                         <img src="{{ $imgUrl }}" class="img-fluid rounded mb-3" alt="{{ $xe->Ten_Xe }}">
 
@@ -91,20 +92,23 @@
 
                         <div class="d-flex justify-content-between mb-2">
                             <span>Số ngày</span>
-                            <span class="fw-bold">{{ $soNgay ?? '-' }}</span>
+                            <span class="fw-bold" id="js-so-ngay">{{ $soNgay ?? '-' }}</span>
                         </div>
 
                         <hr>
 
                         <div class="d-flex justify-content-between mb-2">
                             <span>Tổng tiền</span>
-                            <span
-                                class="fw-bold text-danger">{{ $tongTien ? number_format($tongTien, 0, ',', '.') . 'đ' : '-' }}</span>
+                            <span class="fw-bold text-danger" id="js-tong-tien">
+                                {{ $tongTien ? number_format($tongTien, 0, ',', '.') . 'đ' : '-' }}
+                            </span>
                         </div>
 
                         <div class="d-flex justify-content-between">
                             <span>Tiền cọc (30%)</span>
-                            <span class="fw-bold">{{ $tienCoc ? number_format($tienCoc, 0, ',', '.') . 'đ' : '-' }}</span>
+                            <span class="fw-bold" id="js-tien-coc">
+                                {{ $tienCoc ? number_format($tienCoc, 0, ',', '.') . 'đ' : '-' }}
+                            </span>
                         </div>
                     </div>
 
@@ -129,4 +133,62 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function() {
+            const startInput = document.querySelector('input[name="Ngay_Bat_Dau"]');
+            const endInput = document.querySelector('input[name="Ngay_Ket_Thuc"]');
+            const summaryBox = document.querySelector('[data-gia-thue]');
+            const soNgayEl = document.getElementById('js-so-ngay');
+            const tongTienEl = document.getElementById('js-tong-tien');
+            const tienCocEl = document.getElementById('js-tien-coc');
+
+            if (!startInput || !endInput || !summaryBox || !soNgayEl || !tongTienEl || !tienCocEl) return;
+
+            const dailyPrice = Number(summaryBox.getAttribute('data-gia-thue') || 0);
+
+            const parseLocalDateTime = (value) => {
+                if (!value || typeof value !== 'string') return null;
+                const parts = value.split('T');
+                if (parts.length !== 2) return null;
+                const [y, m, d] = parts[0].split('-').map(Number);
+                const [hh, mm] = parts[1].split(':').map(Number);
+                if (!y || !m || !d || Number.isNaN(hh) || Number.isNaN(mm)) return null;
+                return new Date(y, m - 1, d, hh, mm, 0, 0);
+            };
+
+            const formatVnd = (amount) => {
+                const n = Math.round(Number(amount) || 0);
+                return n.toLocaleString('vi-VN') + 'đ';
+            };
+
+            const updateSummary = () => {
+                const start = parseLocalDateTime(startInput.value);
+                const end = parseLocalDateTime(endInput.value);
+
+                if (!start || !end || !(dailyPrice > 0) || end <= start) {
+                    soNgayEl.textContent = '-';
+                    tongTienEl.textContent = '-';
+                    tienCocEl.textContent = '-';
+                    return;
+                }
+
+                const diffMs = end.getTime() - start.getTime();
+                const dayMs = 24 * 60 * 60 * 1000;
+                let days = Math.ceil(diffMs / dayMs);
+                if (days < 1) days = 1;
+
+                const total = days * dailyPrice;
+                const deposit = total * 0.3;
+
+                soNgayEl.textContent = String(days);
+                tongTienEl.textContent = formatVnd(total);
+                tienCocEl.textContent = formatVnd(deposit);
+            };
+
+            startInput.addEventListener('change', updateSummary);
+            endInput.addEventListener('change', updateSummary);
+            updateSummary();
+        })();
+    </script>
 @endsection

@@ -15,16 +15,7 @@
     <!-- Car categories Start -->
     <div class="container-fluid categories py-5">
         <div class="container">
-            <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
-                <h1 class="display-5 text-capitalize mb-3">Các Phương Tiện <span class="text-primary">Của Chúng Tôi</span>
-                </h1>
-                <p class="mb-0">Khám phá bộ sưu tập xe tự lái đa dạng của chúng tôi, từ các dòng sedan linh hoạt, SUV gia
-                    đình rộng rãi, đến các mẫu xe điện hiện đại. Mọi phương tiện đều được trang bị công nghệ cao cấp nhất,
-                    bảo dưỡng nghiêm ngặt và sẵn sàng mang đến cho bạn một hành trình an toàn và thư thái.
-                </p>
-            </div>
             <div class="row g-4 fadeInUp">
-
                 @forelse ($xes as $xe)
                     @php
                         $imgUrl = !empty($xe->HinhAnh)

@@ -82,7 +82,8 @@
                             </select>
                             <small class="text-muted">Type dùng để client map đúng vị trí hiển thị.</small>
                         </div>
-                        <div class="form-group col-md-2 d-flex align-items-end">
+                        <div class="form-group col-md-2">
+                            <label class="invisible">Lọc</label>
                             <button class="btn btn-secondary w-100" type="submit">Lọc</button>
                         </div>
                     </div>

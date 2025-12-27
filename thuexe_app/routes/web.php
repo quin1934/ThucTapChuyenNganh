@@ -113,21 +113,8 @@ Route::resource('admin/quan-tri-vien', QuanTriVienController::class);
 Route::resource('admin/lich-xe', LichXeController::class);
 Route::resource('admin/danh_muc_thong_so', DanhMucThongSoController::class);
 Route::resource('admin/loai-tien-ich', LoaiTienIchController::class);
-Route::resource('admin/khuyen-mai', PromotionController::class)
-    ->names('promotion')
-    ->except(['show'])
-    ->parameters(['khuyen-mai' => 'promotion']);
-
-Route::resource('admin/cms-pages', CmsPageController::class)
-    ->names('cms-pages')
-    ->except(['show'])
-    ->parameters(['cms-pages' => 'cmsPage']);
-
-Route::resource('admin/cms-blocks', CmsBlockController::class)
-    ->names('cms-blocks')
-    ->except(['show'])
-    ->parameters(['cms-blocks' => 'cmsBlock']);
-
+Route::resource('admin/khuyen-mai', PromotionController::class)->names('promotion')->except(['show'])->parameters(['khuyen-mai' => 'promotion']);
+Route::resource('admin/cms-pages', CmsPageController::class)->names('cms-pages')->except(['show'])->parameters(['cms-pages' => 'cmsPage']);
+Route::resource('admin/cms-blocks', CmsBlockController::class)->names('cms-blocks')->except(['show'])->parameters(['cms-blocks' => 'cmsBlock']);
 Route::resource('lich-xe', LichXeController::class)->only(['index', 'show']);
-
 Auth::routes();
